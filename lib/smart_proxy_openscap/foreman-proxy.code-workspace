@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../foreman-proxy"
+		},
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../openscap_parser-1.0.2"
+		}
+	]
+}
