@@ -31,7 +31,7 @@ module Proxy::OpenSCAP
     # 使用 %r     : pattern2 = %r{^/users/\d+/profile$}
     # "^" : 表示匹配字符串的开头。
     # (/arf/\d+|/policies/\d+/content/|...): 这是一个捕获组，包含多个子表达式，通过 | 连接。它匹配多个可能的路径模式。
-    # /arf/\d+ ;匹配 "/arf/" 后跟至少一个数字。
+    # /arf/\d+; 匹配 "/arf/" 后跟至少一个数字。
     # /policies/\d+/tailoring/ ;匹配 "/policies/" 后跟至少一个数字，然后 "/tailoring/"
     CLIENT_PATHS = Regexp.compile(%r{^(/arf/\d+|/policies/\d+/content/|/policies/\d+/tailoring/|/oval_reports|/oval_policies)})
 
