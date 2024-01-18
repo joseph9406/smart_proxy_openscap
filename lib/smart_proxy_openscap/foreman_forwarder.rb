@@ -43,7 +43,7 @@ module Proxy::OpenSCAP
       # 因為path是絶對路徑,所以, path 會取代整個 "/path/to/resource", 結果是 URI.join(uri.to_s, path)是"http://example.com/aaa/bbb" 
       req = Net::HTTP::Post.new(URI.join(uri.to_s, path).path) 
       req.add_field('Accept', 'application/json,version=2')    # 'Accept' 表明客户端期望服務器回傳的是 JSON 格式的响应，
-      req.content_type = 'application/json'  #  'Content-Type' 表明请求体的格式为 JSON。
+      req.content_type = 'application/json'  # 'Content-Type' 表明请求体的格式为 JSON。
       req.body = body  # 客戶端發送的post請求中帶的請求內容(因為是post,所以請求內容是放在body中)
       http.read_timeout = timeout if timeout
       http.request(req)  # 执行 HTTP POST 请求發送，并返回响应对象。
