@@ -41,7 +41,7 @@ module Proxy::OpenSCAP
     before do   
       # 若條件滿足, pass 會跳过后续的过滤器或路由处理,直接返回,也不會返回nil或任何值。"=~" 运算符用于进行正则表达式匹配。
       pass if request.path_info =~ CLIENT_PATHS   # 在Sinatra中，"request" 是一个关键字，表示当前请求的相关信息。
-      do_authorize_with_trusted_hosts
+      do_authorize_with_trusted_hosts  # 否则执行 do_authorize_with_trusted_hosts 方法
     end
    
     # 在请求路径匹配 "/arf/" 开头或 "/oval_reports/" 开头的路径之前，执行指定的代码块。

@@ -5,13 +5,11 @@ module Proxy::OpenSCAP
     include ::Proxy::Log
 
     def post_report(cname, policy_id, date, data, timeout) 
-      foreman_api_path = report_upload_path(cname, policy_id, date)  # 目標服務器的path, report_upload_path方法的內容要在此類的子類中來實現
-      # 将想要上傳的报告数据解析为 JSON 格式。
-      json = parse_report(cname, policy_id, date, data)
-      response = send_request(foreman_api_path, json, timeout)
+      foreman_api_path = report_upload_path(cname, policy_id, date)  # 目標服務器的path, report_upload_path方法的內容要在此類的子類中來實現      
+      json = parse_report(cname, policy_id, date, data)  # 将想要上傳的报告数据解析为 JSON 格式。
+      response = send_request(foreman_api_path, json, timeout)      
       
-      #********** response.value **********
-      # 是 Net::HTTPResponse 类的一个方法，用于检查 HTTP 响应的状态码是否表示成功。
+      #***** response.value 是 Net::HTTPResponse 类的一个方法，用于检查 HTTP 响应的状态码是否表示成功。*****
       # 具体而言，如果响应的状态码在 200 到 299 的范围内（2xx 表示成功），则 response.value 不做任何事情；
       # 否则，它会抛出 Net::HTTPServerException 异常。
       # 这样的设计可以让你在处理 HTTP 响应之前先确保它是成功的，从而更好地控制程序的行为。
@@ -40,8 +38,10 @@ module Proxy::OpenSCAP
     # 方法中的 uri、http 是從父類 Proxy::HttpRequest::ForemanRequest 繼承得來的
     def send_request(path, body, timeout)
       # Override the parent method to set the right headers
-      path = [uri.path, path].join('/') unless uri.path.empty?
-      req = Net::HTTP::Post.new(URI.join(uri.to_s, path).path)
+      path = [uri.path, path].join('/') unless uri.path.empty?  # 将 uri.path 和 path 以 / 分隔连接在一起。
+      # uri.to_s = "http://example.com/path/to/resource"; path = "/aaa/bbb"; 
+      # 因為path是絶對路徑,所以, path 會取代整個 "/path/to/resource", 結果是 URI.join(uri.to_s, path)是"http://example.com/aaa/bbb" 
+      req = Net::HTTP::Post.new(URI.join(uri.to_s, path).path) 
       req.add_field('Accept', 'application/json,version=2')    # 'Accept' 表明客户端期望服務器回傳的是 JSON 格式的响应，
       req.content_type = 'application/json'  #  'Content-Type' 表明请求体的格式为 JSON。
       req.body = body  # 客戶端發送的post請求中帶的請求內容(因為是post,所以請求內容是放在body中)
